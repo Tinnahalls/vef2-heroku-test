@@ -7,6 +7,7 @@ form með texta og skrá sem sent er með multipart/form-data á /post
 App notar express urlencoded middleware til að vinna úr gögnum í stað straums.
 Birtir innslegin gögn ásamt heiti á skrá.
 */
+
 import express from 'express';
 
 import { query } from './db.js'
@@ -30,7 +31,7 @@ app.get('/', async (req, res,) => {
 
   const names = ''; 
   res.send(`
-  ${names}
+  Nafnalisti: ${names}
 <form method="post" action="/post" enctype="application/x-www-form-urlencoded">
   <input type="text" name="name">
   <button>Senda</button>
