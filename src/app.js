@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
 <form method="post" action="/post" enctype="application/x-www-form-urlencoded">
   <input type="text" name="data">
   <input type="file" name="file">
-  <button>Senda</button>
+  <button>Senda2</button>
 </form>
   `);
 });
