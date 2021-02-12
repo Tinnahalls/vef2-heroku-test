@@ -8,31 +8,46 @@ App notar express urlencoded middleware til að vinna úr gögnum í stað strau
 Birtir innslegin gögn ásamt heiti á skrá.
 */
 import express from 'express';
-import dotenv from 'dotenv';
 
-dotenv.config();
+import { query } from './db.js'
+
 
 const {
   PORT: port = 3000
 } = process.env;
 
+
 const app = express();
 
 // Kemur í veg fyrir .on() dótið sem við gerðum í fyrri dæmum
-app.use(express.urlencoded({ extended: true }));
 
-app.get('/', (req, res) => {
+
+app.get('/', async (req, res,) => {
+  const result = await query('SELECT * FROM people;');
+  console.log('result :>> ', result);
+
+  const rows = result.rows;
+
+  const names = ''; 
   res.send(`
+  ${names}
 <form method="post" action="/post" enctype="application/x-www-form-urlencoded">
-  <input type="text" name="data">
-  <input type="file" name="file">
-  <button>Senda2</button>
+  <input type="text" name="name">
+  <button>Senda</button>
 </form>
-  `);
+  `) ;
 });
 
-app.post('/post', (req, res) => {
-  res.send(`POST gögn: ${JSON.stringify(req.body)}`);
+app.use(express.urlencoded({ extended: true }));
+
+//missing error catching! 
+app.post('/post', async (req, res) => {
+  const name = req.body.name;
+  console.log('name :>>', name);
+ 
+  const result = await query('INSERT INTO people (name) VALUES ($1)', [name]);
+
+  res.redirect('/');
 });
 
 
