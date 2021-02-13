@@ -6,10 +6,7 @@
   "scripts": {
     "lint": "concurrently npm:lint:*",
     "lint:eslint": "eslint ./src",
-    "lint:stylelint": "stylelint ./styles/*.scss --syntax scss",
-    "test": "node --experimental-vm-modules node_modules/.bin/jest",
     "nodemon": "nodemon ./src/app.js",
-    "dev": "concurrently npm:nodemon npm:sass:*",
     "run-server": "node ./src/app.js",
     "start": "node ./src/app.js"
   },
