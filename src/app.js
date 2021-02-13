@@ -29,7 +29,7 @@ app.get('/', async (req, res,) => {
   const result = await query('SELECT * FROM people;');
   console.log('result :>> ', result);
 
-  const rows = result.rows;
+//Cannot read property 'rows' of undefined
 
 
   const names = '';
@@ -77,8 +77,8 @@ app.post('/post', async (req, res) => {
   console.log('comment:>>', comment);
 
 
+  const result = await query('INSERT INTO people(name,nationalid) VALUES ($1,$2)', [name,nationalId]);
 
-  const result = await query('INSERT INTO people (name,nationalId,comment) VALUES ($1, $2, $3)', [name,nationalId,comment]);
 
   res.redirect('/');
 });
