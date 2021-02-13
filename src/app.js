@@ -12,6 +12,8 @@ import express from 'express';
 
 import { query } from './db.js'
 
+import { body, validationResult } from 'express-validator';
+
 
 const {
   PORT: port = 3000
@@ -29,28 +31,58 @@ app.get('/', async (req, res,) => {
 
   const rows = result.rows;
 
-  const names = ''; 
+
+  const names = '';
+  const nationalId = '';
+  const nationalIdPattern = '^[0-9]{6}-?[0-9]{4}$';
+  const comment = '';
+
   res.send(`
-  Nafnalisti: ${names}
-<form method="post" action="/post" enctype="application/x-www-form-urlencoded">
-  <input type="text" name="name">
-  <input type="text" name="sirname">
+  Nafnalisti:
+  <form method="post" action="/post">
+  <label>
+    Nafn:
+    <input required type="text" name="name" value="${names}">
+  </label>
+<label>
+  Kennitala:
+  <input
+    required
+    type="text"
+    pattern="${nationalIdPattern}"
+    name="nationalId"
+    value="${nationalId}">
+</label>
+<label>
+Athugasmend:
+<input required type="text" name="comment" value="${comment}">
+</label>
   <button>Senda</button>
 </form>
   `) ;
 });
 
+
 app.use(express.urlencoded({ extended: true }));
 
-//missing error catching! 
+//missing error catching!
 app.post('/post', async (req, res) => {
   const name = req.body.name;
   console.log('name :>>', name);
- 
-  const result = await query('INSERT INTO people (name) VALUES ($1)', [name]);
+
+  const nationalId = req.body.nationalId;
+  console.log('nationalId :>>', nationalId);
+
+  const comment = req.body.comment;
+  console.log('comment:>>', comment);
+
+
+
+  const result = await query('INSERT INTO people (name,nationalId,comment) VALUES ($1, $2, $3)', [name,nationalId,comment]);
 
   res.redirect('/');
 });
+
 
 
 app.listen(port, () => {
