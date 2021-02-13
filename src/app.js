@@ -34,6 +34,7 @@ app.get('/', async (req, res,) => {
   Nafnalisti: ${names}
 <form method="post" action="/post" enctype="application/x-www-form-urlencoded">
   <input type="text" name="name">
+  <input type="text" name="sirname">
   <button>Senda</button>
 </form>
   `) ;
